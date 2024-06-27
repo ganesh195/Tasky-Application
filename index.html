@@ -19,7 +19,123 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body>
+  <body onload="LoadInitialData">
+
+    <!-- <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#showTask"
+    >
+      Launch demo modal
+    </button> -->
+    
+    <div class="add_new_btn_mobile_only d-md-none">
+      <button
+        class="btn btn-primary d-flex align-items-center gap-3"
+        type="submit"
+        data-bs-toggle="modal"
+        data-bs-target="#addNewModal"
+      >
+        <i class="fa-light fa-plus mr-4"></i> Add New Item
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="addNewModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="addNewModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title" id="addNewModalLabel">Add New Task</h1>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form>
+              <!-- img  -->
+              <div class="mb-3">
+                <label for="imageUrl" class="form-label">Image Url</label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="imageUrl"
+                  aria-describedby="imageDesc"
+                  placeholder="Enter Url"
+                />
+                <div id="imageDesc" class="form-text">
+                  Its optional field for you..
+                </div>
+              </div>
+
+              <!-- title -->
+              <div class="mb-3">
+                <label for="taskTitle" class="form-label">Task Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="taskTitle"
+                  placeholder="Task Title!"
+                  required
+                />
+              </div>
+
+              <!-- Task Type -->
+              <div class="mb-3">
+                <label for="tags" class="form-label">Task Type</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="tags"
+                  placeholder="Task Type"
+                  required
+                />
+              </div>
+
+              <!-- Task description  -->
+              <div class="mb-3">
+                <label for="taskDescription" class="form-label"
+                  >Task Description</label
+                >
+                <textarea
+                  type="text"
+                  class="form-control"
+                  id="taskDescription"
+                  placeholder="Task Description"
+                  required
+                  rows="3"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary" onclick="handleSubmit()">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Tasky Application</a>
@@ -44,6 +160,8 @@
           <button
             class="btn btn-primary d-flex align-items-center gap-3 justify-content-end"
             type="submit"
+            data-bs-toggle="modal"
+            data-bs-target="#addNewModal"
           >
             <i class="fa-light fa-plus mr-4"></i> Add New Item
           </button>
@@ -51,16 +169,57 @@
       </div>
     </nav>
 
-    <div class="container">
+    <!-- Open Task Modal -->
 
+    <div
+      class="modal fade"
+      id="showTask"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Task Details</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body task_modal_body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
       <!--Search Input Section-->
       <section class="mt-5">
         <div class="row justify-content-center">
-          <div class="col-md-6">
+          <div class="col-sm-12 col-md-6">
             <div class="input-group flex-nowrap shadow-lg rounded">
-              <input type="search" class="form-control" placeholder="Search Your Task Here"/>
-              <span class="input-group-text" id="addon-wrapping"> 
-                <i class="fa-solid fa-magnifying-glass"></i>   
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Search Your Task Here"
+                aria-label="Search Task"
+                aria-describedby="addon-wrapping"
+                onchange="searchTask.apply(this, arguments)"
+              />
+              <span class="input-group-text" id="addon-wrapping">
+                <i class="fa-solid fa-magnifying-glass" style="cursor: pointer;"></i>
               </span>
             </div>
           </div>
@@ -68,10 +227,9 @@
       </section>
 
       <!--Cards Section-->
-      <section>
-
+      <section class="mt-3">
+        <div class="row task_contents"></div>
       </section>
-
     </div>
 
     <script src="script.js"></script>
